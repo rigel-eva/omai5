@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
-require 'octokit'
-require 'nokogiri'
-require 'base64'
 ##
 # A Handy module for reading 5th editon Chummer Sheets
 module Omai5
     ##
   # This Class defines a skill for a character
-  class Skill
+  class Skill < OmaiBase
     attr_reader :id, :knowledge
     attr_accessor :base, :karma, :specialization, :version
     ##
@@ -28,7 +25,8 @@ module Omai5
                      specialization: '',
                      name: '',
                      knowledge: false,
-                     catagory: ''
+                     catagory: '',
+                     notes: ''
                    })
       @id = id
       @base = base
@@ -38,6 +36,7 @@ module Omai5
       @name = options[:name]
       @knowledge = options[:knowledge]
       @catagory = options[:catagory]
+      super options
     end
 
     ##
@@ -109,6 +108,7 @@ module Omai5
       ##
       # Builds a skill from a Nokogiri Node set
       # @param [Nokogiri::XML::NodeSet] node_set Node set from which we are going to build the skill
+      # @option options [String] ('') version: The version of Chummer the original file was built with
       # @return [Omai5:Skill]
       def from_skill_node(node_set, options = { version: nil })
         skill_id = node_set.xpath('.//suid/text()').to_s
@@ -130,9 +130,11 @@ module Omai5
       ##
       # Builds a list of skills from a Nokogiri Node set
       # @param [Nokogiri::XML::NodeSet] node_set Node set from which we are going to build the list of skills
+      # @option options [String] ('') version: The version of Chummer the original file was built with
       # @return [Omai5:Skill]
-      def from_base_node(node_set, _options = { version: nil })
+      def from_base_node(node_set, options = { version: nil })
         skills = []
+        version = options[:version]
         version = node_set.xpath('//appversion/text()').to_s if version.nil?
         node_set.xpath('//skill').each do |skill|
           skills.push(from_skill_node(skill, version: version))
