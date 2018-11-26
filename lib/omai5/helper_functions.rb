@@ -15,10 +15,11 @@ module Omai5
   # @param [String] sheet_name Name of the sheet we need to download
   # @option options [String] version Version of the sheet we need downloaded
   # @return [Nokogiri::XML::NodeSet] The Sheet we just downloaded
-  def self.download_sheet(sheet_name, options = { version: '' })
+  def self.download_sheet(sheet_name, options = { version: nil })
+    version = options[:version]
     @@sheets ||= {}
     @@sheets[sheet_name] ||= {}
-    @@sheets[sheet_name][options[:version]] ||= Nokogiri::XML(Base64.decode64(Octokit.contents('chummer5a/chummer5a', path: "Chummer/data/#{sheet_name}.xml", ref: @version).content))
+    @@sheets[sheet_name][options[:version]] ||= Nokogiri::XML(Base64.decode64(Octokit.contents('chummer5a/chummer5a', path: "Chummer/data/#{sheet_name}.xml", ref: version).content))
     @@sheets[sheet_name][options[:version]]
   end
 end

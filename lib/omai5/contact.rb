@@ -2,7 +2,7 @@
 
 module Omai5
   ##
-  # This Class stores contacts that a deniable asset mgiht need
+  # This Class stores contacts that a deniable asset might need
   class Contact < CharacterBase
     # @!attribute connection
     #   @return [Fixnum] Power of the connections the Contact has
@@ -37,7 +37,9 @@ module Omai5
     # @!attribute blackmail
     #   @return [String] Is the contact someone whom you've blackmaled?
     attr_accessor :blackmail
-
+    # @!attribute role
+    #   @return [String] What role our contact plays
+    attr_accessor :role
     #
     # Initializes the Contact
     #
@@ -60,6 +62,7 @@ module Omai5
                                                     metatype: '',
                                                     age: '',
                                                     sex: '',
+                                                    role: '',
                                                     preferred_payment: '',
                                                     hobbies_vice: '',
                                                     personal_life: '',
@@ -69,6 +72,7 @@ module Omai5
                                                     group_name: '',
                                                     family: false,
                                                     blackmail: false,
+                                                    version: nil,
                                                     notes: '' })
       @connection = connection
       @loyalty = loyalty
@@ -81,6 +85,7 @@ module Omai5
       @blackmail = options[:blackmail]
       @location = options[:location]
       @group_name = options[:group_name]
+      @role = options[:role]
       @type = type
       super options
     end
@@ -103,9 +108,9 @@ module Omai5
       #
       # @param [Nokogiri::XML::NodeSet] node_set Node set we are generating the contact from
       # @option options [String] ('') version: The version of Chummer the original file was built with
-      # 
       #
-      # @return [Omai5::Contact] Contact 
+      #
+      # @return [Omai5::Contact] Contact
       #
       def from_contact_node(node_set, options = { version: nil })
         name = node_set.xpath('.//name/text()').to_s
@@ -125,7 +130,7 @@ module Omai5
         group = node_set.xpath('.//group/text()').to_s == 'True'
         family = node_set.xpath('.//family/text()').to_s == 'True'
         notes = node_set.xpath('.//notes/text()').to_s
-        version=options[:version]
+        version = options[:version]
         Omai5::Contact.new(loyalty, connection,
                            name: name,
                            metatype: metatype,
@@ -140,6 +145,7 @@ module Omai5
                            group: group,
                            family: family,
                            blackmail: blackmail,
+                           role: role,
                            version: version,
                            notes: notes)
       end

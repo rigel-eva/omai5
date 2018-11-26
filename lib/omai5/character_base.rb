@@ -9,11 +9,13 @@ module Omai5
                                metatype: '',
                                age: '',
                                sex: '',
-                               notes: '' })
+                               notes: '',
+                               version: nil })
       @name = options[:name]
       @metatype = options[:metatype]
       @age = options[:age]
       @sex = options[:sex]
+      @version = options[:version]
       super
     end
   end

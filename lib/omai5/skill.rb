@@ -3,9 +3,9 @@
 ##
 # A Handy module for reading 5th editon Chummer Sheets
 module Omai5
-    ##
+  ##
   # This Class defines a skill for a character
-  class Skill < OmaiBase
+  class Skill < Omai5::OmaiBase
     attr_reader :id, :knowledge
     attr_accessor :base, :karma, :specialization, :version
     ##
@@ -36,9 +36,30 @@ module Omai5
       @name = options[:name]
       @knowledge = options[:knowledge]
       @catagory = options[:catagory]
+      @ability = nil
       super options
     end
 
+    #
+    # Returns a precompiled Rollstring for roll20
+    #
+    # @param [Fixnum] attribute_value Total Value of the Attribute
+    #
+    # @return [String] Roll20 Formated string, ready to be plugged into any roll20 chatbox
+    #
+    def r20_roll_string(attribute_value)
+      puts attribute_value
+      puts total()
+      "/r #{attribute_value+total()}d6>5 #{@name}"
+    end
+    #
+    # Total value of the skill
+    #
+    # @return [Fixnum] Total Value of the skill
+    #
+    def total
+       @base+@karma
+    end
     ##
     # @!attribute [r] name
     def name # :nodoc:
@@ -219,7 +240,6 @@ module Omai5
       # @return [Array<String>] A listing of Skill Groups in Array form
       def skill_group_list(options = { version: nil })
         version = options[:version]
-        puts version
         skill_listing = Omai5.download_sheet('skills', version: version)
         skill_listing.xpath('//skillgroups/name/text()').map(&:to_s)
       end
