@@ -1,3 +1,11 @@
+PATH
+  remote: .
+  specs:
+    omai5 (0.0.1.pre)
+      nokogiri (~> 1.8)
+      octokit (~> 4.0)
+      rubysl-base64 (~> 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -21,9 +29,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  nokogiri
-  octokit (~> 4.0)
-  rubysl-base64 (~> 2.0)
+  omai5!
 
 BUNDLED WITH
-   1.16.2
+   1.16.6

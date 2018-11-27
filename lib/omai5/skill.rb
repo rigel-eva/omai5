@@ -48,8 +48,8 @@ module Omai5
     # @return [String] Roll20 Formated string, ready to be plugged into any roll20 chatbox
     #
     def r20_roll_string(attribute_value)
-      puts attribute_value
-      puts total()
+       attribute_value
+       total()
       "/r #{attribute_value+total()}d6>5 #{@name}"
     end
     #

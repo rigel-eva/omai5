@@ -47,7 +47,7 @@ module Omai5
       super(options)
     end
     def skills
-      puts @skill_hash.values.class
+       @skill_hash.values.class
       @skill_hash.values
     end
     #
@@ -59,8 +59,8 @@ module Omai5
     #
     def r20_roll_skill (skill_name)
       skill = @skill_hash[skill_name]
-      puts skill.ability
-      puts skill.id
+       skill.ability
+       skill.id
       skill.r20_roll_string(@attributes[skill.ability].to_i)
     end
     class << self
@@ -84,7 +84,7 @@ module Omai5
           attribute_min = attribute.xpath('./metatypemin/text()').to_s.to_i
           attribute_max = attribute.xpath('./metatypemax/text()').to_s.to_i
           attributes[attribute_name] = Attribute.new(attribute_base, attribute_karma, attribute_min, attribute_max)
-          puts attributes[attribute_name]
+           attributes[attribute_name]
         end
         Character.new(attributes, contacts: contacts, skills: skills, gear: gear)
       end
